@@ -1,2 +1,0 @@
-# BillTracker
-Created with CodeSandbox
