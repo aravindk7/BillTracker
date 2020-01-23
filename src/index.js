@@ -11,10 +11,20 @@ import BillsTable from "./components/BillsTable";
 
 function App() {
   const [shouldShowAddCategory, setShouldShowAddCategory] = useState(true);
+
+  const [categories, setCategories] = useState([]);
+
+  const addCategory = category => {
+    const updatedCategories = [...(categories || []), category];
+    setCategories(updatedCategories);
+    setShouldShowAddCategory(false);
+    console.log(updatedCategories);
+  };
+
   return (
     <div className="App">
       {shouldShowAddCategory ? (
-        <AddCategory />
+        <AddCategory onSubmit={addCategory} />
       ) : (
         <div>
           <NavBar />
