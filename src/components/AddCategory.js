@@ -10,7 +10,6 @@ export default props => {
       alert("Please enter a cetegory");
       return;
     }
-    console.log("Addcategory", category);
     props.onSubmit(category);
   };
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import "./styles.css";
@@ -10,7 +10,7 @@ import Chart from "./components/Chart";
 import BillsTable from "./components/BillsTable";
 
 function App() {
-  const [shouldShowAddCategory, setShouldShowAddCategory] = useState(true);
+  const [shouldShowAddCategory, setShouldShowAddCategory] = useState(false);
 
   const [categories, setCategories] = useState([]);
 
@@ -18,7 +18,23 @@ function App() {
     const updatedCategories = [...(categories || []), category];
     setCategories(updatedCategories);
     setShouldShowAddCategory(false);
-    console.log(updatedCategories);
+    localStorage.setItem("categories", JSON.stringify(updatedCategories));
+  };
+
+  useEffect(() => {
+    const categoriesInLocalStorage = JSON.parse(
+      localStorage.getItem("categories")
+    );
+
+    setCategories(categoriesInLocalStorage);
+
+    if (!categoriesInLocalStorage) {
+      setShouldShowAddCategory(true);
+    }
+  }, []);
+
+  const showAddCategory = () => {
+    setShouldShowAddCategory(true);
   };
 
   return (
@@ -27,7 +43,8 @@ function App() {
         <AddCategory onSubmit={addCategory} />
       ) : (
         <div>
-          <NavBar />
+          <NavBar categories={categories} showAddCategory={showAddCategory} />
+
           <div className="container flex">
             <div className="w-1/2">
               <BillsTable />
